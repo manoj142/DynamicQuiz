@@ -1,0 +1,646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StudentsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Students.dbo.AnswerTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AnswerTable">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" />
+          <Property Name="OptionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Chapters">
+          <Key>
+            <PropertyRef Name="ChapterId" />
+          </Key>
+          <Property Name="ChapterId" Type="int" Nullable="false" />
+          <Property Name="ChapterName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TopicId" Type="int" />
+        </EntityType>
+        <EntityType Name="Exams">
+          <Key>
+            <PropertyRef Name="ExamId" />
+          </Key>
+          <Property Name="ExamId" Type="int" Nullable="false" />
+          <Property Name="ExamName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="int" Nullable="false" />
+          <Property Name="OptionContent" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="QuestionId" Type="int" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="QuestionContent" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Catagory" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="ChapterId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Students.dbo.StatusTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StatusTable">
+          <Key>
+            <PropertyRef Name="OptionId" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="AnswerStatus" />
+          </Key>
+          <Property Name="QuestionId" Type="int" />
+          <Property Name="OptionId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AnswerStatus" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="SubjectId" />
+          </Key>
+          <Property Name="SubjectId" Type="int" Nullable="false" />
+          <Property Name="SubName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ExamId" Type="int" />
+        </EntityType>
+        <EntityType Name="Topics">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="int" Nullable="false" />
+          <Property Name="TopicName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="SubjectId" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AnswerTab__Optio__49C3F6B7">
+          <End Role="Options" Type="Self.Options" Multiplicity="1" />
+          <End Role="AnswerTable" Type="Self.AnswerTable" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AnswerTab__Quest__48CFD27E">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
+          <End Role="AnswerTable" Type="Self.AnswerTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Chapters__TopicI__412EB0B6">
+          <End Role="Topics" Type="Self.Topics" Multiplicity="0..1" />
+          <End Role="Chapters" Type="Self.Chapters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topics">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="Chapters">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Options__Questio__46E78A0C">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
+          <End Role="Options" Type="Self.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Questions__Chapt__440B1D61">
+          <End Role="Chapters" Type="Self.Chapters" Multiplicity="0..1" />
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapters">
+              <PropertyRef Name="ChapterId" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="ChapterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StatusTab__Optio__5070F446">
+          <End Role="Options" Type="Self.Options" Multiplicity="1" />
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="StatusTable">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StatusTab__Quest__4F7CD00D">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="StatusTable">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StatusTab__UserI__5165187F">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StatusTable">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjects__ExamId__3B75D760">
+          <End Role="Exams" Type="Self.Exams" Multiplicity="0..1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exams">
+              <PropertyRef Name="ExamId" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="ExamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Topics__SubjectI__3E52440B">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="0..1" />
+          <End Role="Topics" Type="Self.Topics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectId" />
+            </Principal>
+            <Dependent Role="Topics">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentsModelStoreContainer">
+          <EntitySet Name="Chapters" EntityType="Self.Chapters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Topics" EntityType="Self.Topics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnswerTable" EntityType="Self.AnswerTable" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AnswerTable].[QuestionId] AS [QuestionId], 
+    [AnswerTable].[OptionId] AS [OptionId]
+    FROM [dbo].[AnswerTable] AS [AnswerTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StatusTable" EntityType="Self.StatusTable" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StatusTable].[QuestionId] AS [QuestionId], 
+    [StatusTable].[OptionId] AS [OptionId], 
+    [StatusTable].[UserId] AS [UserId], 
+    [StatusTable].[AnswerStatus] AS [AnswerStatus]
+    FROM [dbo].[StatusTable] AS [StatusTable]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__AnswerTab__Optio__49C3F6B7" Association="Self.FK__AnswerTab__Optio__49C3F6B7">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="AnswerTable" EntitySet="AnswerTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AnswerTab__Quest__48CFD27E" Association="Self.FK__AnswerTab__Quest__48CFD27E">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="AnswerTable" EntitySet="AnswerTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Chapters__TopicI__412EB0B6" Association="Self.FK__Chapters__TopicI__412EB0B6">
+            <End Role="Topics" EntitySet="Topics" />
+            <End Role="Chapters" EntitySet="Chapters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Options__Questio__46E78A0C" Association="Self.FK__Options__Questio__46E78A0C">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Questions__Chapt__440B1D61" Association="Self.FK__Questions__Chapt__440B1D61">
+            <End Role="Chapters" EntitySet="Chapters" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StatusTab__Optio__5070F446" Association="Self.FK__StatusTab__Optio__5070F446">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="StatusTable" EntitySet="StatusTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StatusTab__Quest__4F7CD00D" Association="Self.FK__StatusTab__Quest__4F7CD00D">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="StatusTable" EntitySet="StatusTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StatusTab__UserI__5165187F" Association="Self.FK__StatusTab__UserI__5165187F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="StatusTable" EntitySet="StatusTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjects__ExamId__3B75D760" Association="Self.FK__Subjects__ExamId__3B75D760">
+            <End Role="Exams" EntitySet="Exams" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Topics__SubjectI__3E52440B" Association="Self.FK__Topics__SubjectI__3E52440B">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Topics" EntitySet="Topics" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Chapter">
+          <Key>
+            <PropertyRef Name="ChapterId" />
+          </Key>
+          <Property Name="ChapterId" Type="Int32" Nullable="false" />
+          <Property Name="ChapterName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TopicId" Type="Int32" />
+          <NavigationProperty Name="Topic" Relationship="Self.FK__Chapters__TopicI__412EB0B6" FromRole="Chapters" ToRole="Topics" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK__Questions__Chapt__440B1D61" FromRole="Chapters" ToRole="Questions" />
+        </EntityType>
+        <EntityType Name="Exam">
+          <Key>
+            <PropertyRef Name="ExamId" />
+          </Key>
+          <Property Name="ExamId" Type="Int32" Nullable="false" />
+          <Property Name="ExamName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK__Subjects__ExamId__3B75D760" FromRole="Exams" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Int32" Nullable="false" />
+          <Property Name="OptionContent" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" />
+          <NavigationProperty Name="AnswerTable" Relationship="Self.FK__AnswerTab__Optio__49C3F6B7" FromRole="Options" ToRole="AnswerTable" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__Options__Questio__46E78A0C" FromRole="Options" ToRole="Questions" />
+          <NavigationProperty Name="StatusTables" Relationship="Self.FK__StatusTab__Optio__5070F446" FromRole="Options" ToRole="StatusTable" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionContent" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Catagory" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ChapterId" Type="Int32" />
+          <NavigationProperty Name="Chapter" Relationship="Self.FK__Questions__Chapt__440B1D61" FromRole="Questions" ToRole="Chapters" />
+          <NavigationProperty Name="Options" Relationship="Self.FK__Options__Questio__46E78A0C" FromRole="Questions" ToRole="Options" />
+          <NavigationProperty Name="AnswerTables" Relationship="Self.FK__AnswerTab__Quest__48CFD27E" FromRole="Questions" ToRole="AnswerTable" />
+          <NavigationProperty Name="StatusTables" Relationship="Self.FK__StatusTab__Quest__4F7CD00D" FromRole="Questions" ToRole="StatusTable" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectId" />
+          </Key>
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="SubName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExamId" Type="Int32" />
+          <NavigationProperty Name="Exam" Relationship="Self.FK__Subjects__ExamId__3B75D760" FromRole="Subjects" ToRole="Exams" />
+          <NavigationProperty Name="Topics" Relationship="Self.FK__Topics__SubjectI__3E52440B" FromRole="Subjects" ToRole="Topics" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="Int32" Nullable="false" />
+          <Property Name="TopicName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SubjectId" Type="Int32" />
+          <NavigationProperty Name="Chapters" Relationship="Self.FK__Chapters__TopicI__412EB0B6" FromRole="Topics" ToRole="Chapters" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK__Topics__SubjectI__3E52440B" FromRole="Topics" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="StatusTables" Relationship="Self.FK__StatusTab__UserI__5165187F" FromRole="Users" ToRole="StatusTable" />
+        </EntityType>
+        <EntityType Name="AnswerTable">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" />
+          <Property Name="OptionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Option" Relationship="Self.FK__AnswerTab__Optio__49C3F6B7" FromRole="AnswerTable" ToRole="Options" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__AnswerTab__Quest__48CFD27E" FromRole="AnswerTable" ToRole="Questions" />
+        </EntityType>
+        <EntityType Name="StatusTable">
+          <Key>
+            <PropertyRef Name="OptionId" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="AnswerStatus" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" />
+          <Property Name="OptionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AnswerStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Option" Relationship="Self.FK__StatusTab__Optio__5070F446" FromRole="StatusTable" ToRole="Options" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__StatusTab__Quest__4F7CD00D" FromRole="StatusTable" ToRole="Questions" />
+          <NavigationProperty Name="User" Relationship="Self.FK__StatusTab__UserI__5165187F" FromRole="StatusTable" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK__Chapters__TopicI__412EB0B6">
+          <End Role="Topics" Type="Self.Topic" Multiplicity="0..1" />
+          <End Role="Chapters" Type="Self.Chapter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topics">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="Chapters">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Questions__Chapt__440B1D61">
+          <End Role="Chapters" Type="Self.Chapter" Multiplicity="0..1" />
+          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapters">
+              <PropertyRef Name="ChapterId" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="ChapterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjects__ExamId__3B75D760">
+          <End Role="Exams" Type="Self.Exam" Multiplicity="0..1" />
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exams">
+              <PropertyRef Name="ExamId" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="ExamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AnswerTab__Optio__49C3F6B7">
+          <End Role="Options" Type="Self.Option" Multiplicity="1" />
+          <End Role="AnswerTable" Type="Self.AnswerTable" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Options__Questio__46E78A0C">
+          <End Role="Questions" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="Options" Type="Self.Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StatusTab__Optio__5070F446">
+          <End Role="Options" Type="Self.Option" Multiplicity="1" />
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="StatusTable">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AnswerTab__Quest__48CFD27E">
+          <End Role="Questions" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="AnswerTable" Type="Self.AnswerTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StatusTab__Quest__4F7CD00D">
+          <End Role="Questions" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="StatusTable">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Topics__SubjectI__3E52440B">
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="0..1" />
+          <End Role="Topics" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectId" />
+            </Principal>
+            <Dependent Role="Topics">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StatusTab__UserI__5165187F">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="StatusTable" Type="Self.StatusTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StatusTable">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chapters" EntityType="Self.Chapter" />
+          <EntitySet Name="Exams" EntityType="Self.Exam" />
+          <EntitySet Name="Options" EntityType="Self.Option" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <EntitySet Name="Topics" EntityType="Self.Topic" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="AnswerTables" EntityType="Self.AnswerTable" />
+          <EntitySet Name="StatusTables" EntityType="Self.StatusTable" />
+          <AssociationSet Name="FK__Chapters__TopicI__412EB0B6" Association="Self.FK__Chapters__TopicI__412EB0B6">
+            <End Role="Topics" EntitySet="Topics" />
+            <End Role="Chapters" EntitySet="Chapters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Questions__Chapt__440B1D61" Association="Self.FK__Questions__Chapt__440B1D61">
+            <End Role="Chapters" EntitySet="Chapters" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjects__ExamId__3B75D760" Association="Self.FK__Subjects__ExamId__3B75D760">
+            <End Role="Exams" EntitySet="Exams" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AnswerTab__Optio__49C3F6B7" Association="Self.FK__AnswerTab__Optio__49C3F6B7">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="AnswerTable" EntitySet="AnswerTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Options__Questio__46E78A0C" Association="Self.FK__Options__Questio__46E78A0C">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StatusTab__Optio__5070F446" Association="Self.FK__StatusTab__Optio__5070F446">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="StatusTable" EntitySet="StatusTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AnswerTab__Quest__48CFD27E" Association="Self.FK__AnswerTab__Quest__48CFD27E">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="AnswerTable" EntitySet="AnswerTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StatusTab__Quest__4F7CD00D" Association="Self.FK__StatusTab__Quest__4F7CD00D">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="StatusTable" EntitySet="StatusTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Topics__SubjectI__3E52440B" Association="Self.FK__Topics__SubjectI__3E52440B">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Topics" EntitySet="Topics" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StatusTab__UserI__5165187F" Association="Self.FK__StatusTab__UserI__5165187F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="StatusTable" EntitySet="StatusTables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentsModelStoreContainer" CdmEntityContainer="StudentsEntities">
+          <EntitySetMapping Name="Chapters">
+            <EntityTypeMapping TypeName="StudentsModel.Chapter">
+              <MappingFragment StoreEntitySet="Chapters">
+                <ScalarProperty Name="ChapterId" ColumnName="ChapterId" />
+                <ScalarProperty Name="ChapterName" ColumnName="ChapterName" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exams">
+            <EntityTypeMapping TypeName="StudentsModel.Exam">
+              <MappingFragment StoreEntitySet="Exams">
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+                <ScalarProperty Name="ExamName" ColumnName="ExamName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="StudentsModel.Option">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="OptionContent" ColumnName="OptionContent" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="StudentsModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionContent" ColumnName="QuestionContent" />
+                <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+                <ScalarProperty Name="ChapterId" ColumnName="ChapterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="StudentsModel.Subject">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="SubName" ColumnName="SubName" />
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topics">
+            <EntityTypeMapping TypeName="StudentsModel.Topic">
+              <MappingFragment StoreEntitySet="Topics">
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="TopicName" ColumnName="TopicName" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="StudentsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnswerTables">
+            <EntityTypeMapping TypeName="StudentsModel.AnswerTable">
+              <MappingFragment StoreEntitySet="AnswerTable">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTables">
+            <EntityTypeMapping TypeName="StudentsModel.StatusTable">
+              <MappingFragment StoreEntitySet="StatusTable">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AnswerStatus" ColumnName="AnswerStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

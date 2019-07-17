@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="087604b7f580415780c8596088936222" Name="Diagram1">
+        <EntityTypeShape EntityType="StudentsModel.Chapter" Width="1.5" PointX="7.5" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.Exam" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.Option" Width="1.5" PointX="12" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.Question" Width="1.5" PointX="9.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.Subject" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.Topic" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.User" Width="1.5" PointX="12" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.AnswerTable" Width="1.5" PointX="14.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentsModel.StatusTable" Width="1.5" PointX="14.25" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="StudentsModel.FK__Chapters__TopicI__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__Questions__Chapt__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__Subjects__ExamId__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__AnswerTab__Optio__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__Options__Questio__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__StatusTab__Optio__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__AnswerTab__Quest__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__StatusTab__Quest__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__Topics__SubjectI__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentsModel.FK__StatusTab__UserI__5165187F" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
